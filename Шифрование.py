@@ -1,6 +1,3 @@
-vixod = str(input('Введите текст: '))
-key_bykv = str(input('Введите ключ: '))
-
 mas = {10000000: "А", 10000001: "Б", 10000010: "В", 10000011: "Г", 10000100: "Д", 10000101: "Е", 10000110: "Ж", 10000111: "З", 10001000: "И", 10001001: "Й", 10001010: "К", 10001011: "Л",
        10001100: "М", 10001101: "Н", 10001110: "О", 10001111: "П", 10010000: "Р", 10010001: "С", 10010010: "Т", 10010011: "У", 10010100: "Ф", 10010101: "Х", 10010110: "Ц", 10010111: "Ч",
        10011000: "Ш", 10011001: "Щ", 10011010: "Ъ", 10011011: "Ы", 10011100: "Ь", 10011101: "Э", 10011110: "Ю", 10011111: "Я", 10100000: " ", 10100001: ".", 10100010: ","
@@ -31,10 +28,6 @@ def zapis(d, value): # Ввели букву
 def otpis(mas, isxod): # Ввели Число
     return mas.get(isxod)
 
-posle_nachalo = nachalo(vixod, mas)
-key = nachalo(key_bykv, mas)
-print(posle_nachalo, 'Сначала цифры')
-print(key, "Теперь ключ")
 
 def xor(value, key, mas): # Операция XOR
     s = 0
@@ -56,16 +49,11 @@ def xor(value, key, mas): # Операция XOR
     
     return new_arr
 
-posle_xor = xor(posle_nachalo, key, mas)
-print(posle_xor, "После XoR")
-
 def soed(arr):
     stroka = ""
     for i in arr:
         stroka = stroka + str(i)
     return stroka
-
-posle_soed = soed(posle_xor)
 
 def b64e(s): #кодировка base64
     dlina = len(s)//6
@@ -75,17 +63,14 @@ def b64e(s): #кодировка base64
     otvet = []
     for i in range(dlina):
         chis = otpis(mas_base,int(s[a:b+1],2)) 
-        print(chis, '<-', str(int(s[a:b+1],2)))
+        print(str(int(s[a:b+1],2)), '->', chis)
         otvet.append(chis)
         a = a + 6
         b = b + 6
     if ostatok != 0:
         chis = otpis(mas_base,int(s[a:b+1],2))
-        print(chis, '<-', str(int(s[a:b+1],2)))
+        print(str(int(s[a:b+1],2)), '->', chis)
     return otvet
-
-posle_base = b64e(posle_soed)
-print(posle_base, "После base")
 
 def from_russia_keyboard(text): # Измена раскладки
     layout = dict(zip(map(ord, '''qwertyuiop[]asdfghjkl;'zxcvbnm,./`QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?~'''),
@@ -95,17 +80,36 @@ def from_russia_keyboard(text): # Измена раскладки
         otvet.append(i.translate(layout))
     return otvet
 
-posle_keyb = from_russia_keyboard(posle_base)
-print(posle_keyb, "Перевод на русккий")
-
 def sort(posle_keyb):
     for i in range(0,len(posle_keyb),2):
         posle_keyb.append(posle_keyb[i])
         posle_keyb.pop(i)
     return posle_keyb 
-  
-posle_sort = sort(posle_keyb)
-print(posle_sort, "После сортировки")
 
-last_soed = soed(posle_sort)
-print(last_soed)
+if __name__ == '__main__':
+    
+    vixod = str(input('Введите текст: '))
+    key_bykv = str(input('Введите ключ: '))
+    
+    posle_nachalo = nachalo(vixod, mas)
+    key = nachalo(key_bykv, mas)
+    print(posle_nachalo, 'Сначала цифры')
+    print(key, "Теперь ключ")
+    
+    posle_xor = xor(posle_nachalo, key, mas)
+    print(posle_xor, "После XoR")
+    
+    posle_soed = soed(posle_xor)
+    
+    posle_base = b64e(posle_soed)
+    print(posle_base, "После base")
+    
+    posle_keyb = from_russia_keyboard(posle_base)
+    print(posle_keyb, "Перевод на русккий")
+    
+    posle_sort = sort(posle_keyb)
+    print(posle_sort, "После сортировки")
+
+    last_soed = soed(posle_sort)
+    print("Результат: ")
+    print(last_soed)
